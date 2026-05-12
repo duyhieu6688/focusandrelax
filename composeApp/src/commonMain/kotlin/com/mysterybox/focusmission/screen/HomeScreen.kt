@@ -1,6 +1,7 @@
 package com.mysterybox.focusmission.screen
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -12,32 +13,52 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mysterybox.focusmission.uiDefine.DarkGray
 import com.mysterybox.focusmission.uiDefine.DuolingoBlue
 import com.mysterybox.focusmission.uiDefine.DuolingoRed
+import com.mysterybox.focusmission.uiDefine.MyTextSize3
 import com.mysterybox.focusmission.uiDefine.MyTextStyle
 import com.mysterybox.focusmission.uiDefine.OrangeBear
 import com.mysterybox.focusmission.uiDefine.PathBrown
 import com.mysterybox.focusmission.uiDefine.SkyBlue
 import com.mysterybox.focusmission.uiDefine.White
+import missionfocused.composeapp.generated.resources.Res
+import missionfocused.composeapp.generated.resources.coins_icon
+import missionfocused.composeapp.generated.resources.main_background_home_screen
+import missionfocused.composeapp.generated.resources.main_hiha_charactor
+import missionfocused.composeapp.generated.resources.streak_icon
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun HomeScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(SkyBlue)
+            .background(SkyBlue),
+
     ) {
+        Image(
+            painter = painterResource(Res.drawable.main_background_home_screen),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
         // Main Content
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+        ) {
             HeaderSection()
-            UnitProgressCard()
-            Spacer(modifier = Modifier.height(20.dp))
-            LessonPath()
+//            UnitProgressCard()
+//            Spacer(modifier = Modifier.height(20.dp).background(SkyBlue).width(100.dp))
+//            LessonPath()
+            MainCharactor()
         }
     }
 }
@@ -52,27 +73,32 @@ fun HeaderSection() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
-            Text(
-                text = "Good Morning",
-                style = MyTextStyle
-            )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "🇬🇧 English", fontSize = 14.sp, color = DarkGray)
-                Text(text = " ▾", color = DarkGray)
-            }
+            ResourceItem("\uD83D\uDD25", count = "245")
         }
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            ResourceItem(iconColor = DuolingoBlue, count = "245")
-            Spacer(modifier = Modifier.width(8.dp))
-            ResourceItem(iconColor = DuolingoRed, count = "5")
+            ResourceItem("\uD83E\uDE99", count = "5")
         }
     }
 }
 
+@Composable
+fun MainCharactor() {
+    Column(
+        modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(Res.drawable.main_hiha_charactor),
+            contentDescription = null,
+            modifier = Modifier.fillMaxHeight().height(300.dp).width(300.dp)
+        )
+    }
+}
 
 @Composable
-fun ResourceItem(iconColor: Color, count: String) {
+fun ResourceItem(icon: String, count: String) {
     Surface(
         shape = RoundedCornerShape(20.dp),
         color = White,
@@ -84,11 +110,12 @@ fun ResourceItem(iconColor: Color, count: String) {
         ) {
             Box(
                 modifier = Modifier
-                    .size(16.dp)
-                    .background(iconColor, CircleShape)
-            )
+                    .size(36.dp)
+            ) {
+                Text(icon, fontSize = 24.sp)
+            }
             Spacer(modifier = Modifier.width(4.dp))
-            Text(text = count, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+            Text(text = count, fontWeight = FontWeight.Bold, fontSize = 18.sp)
         }
     }
 }
@@ -175,11 +202,11 @@ fun LessonPath() {
                     .background(OrangeBear, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-                Text("🐻", fontSize = 50.sp)
+                Text("\uD83D\uDC3B\u200D❄\uFE0F", fontSize = 50.sp)
             }
-            
+
             Spacer(modifier = Modifier.height(40.dp))
-            
+
             LessonNode(icon = "🏁", offset = (-40).dp)
             Spacer(modifier = Modifier.height(80.dp))
             LessonNode(icon = "🏋️", offset = 40.dp)
@@ -203,4 +230,10 @@ fun LessonNode(icon: String, offset: Dp) {
             Text(icon, fontSize = 24.sp)
         }
     }
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview() {
+    HomeScreen()
 }
